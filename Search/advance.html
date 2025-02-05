@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <style>
+            .images{
+                position: relative;top: 10px;
+                margin:auto;
+                display: flex;
+                flex-direction: row;
+                padding-left:85%;
+                font-size: medium;
+            }
+            .logo{
+                color: rgb(250, 4, 4);
+                font-size: x-large;
+                position: relative;left: 20px;
+                top: 40px;
+            }
+            .top{
+                border: 1px solid black;
+                padding: 10px;
+                padding-bottom: 60px;
+
+            }
+            .form{
+                font-size: large;
+                padding: 20px;
+            }
+            div>.left{
+                font-size: medium;
+                position: absolute;
+            }
+            div>.right{
+                position: absolute;left:250px;
+            }
+            .sub{
+                background-color:rgb(129, 185, 252);
+                border: 0px;
+                border-radius: 5px;
+                color: white;
+                position: relative;
+                left: 210%;
+                top: 20px;
+            }
+            input:focus{
+                border: 1px solid;
+            }
+            .google{
+                position: absolute;
+                top: 1px;
+            }
+        </style>
+    </head>
+    <body><div class="top">
+        <img  class="google" src="https://e7.pngegg.com/pngimages/523/198/png-clipart-google-logo-google-search-google-play-google-text-logo.png" width="120" height="80">
+        <div class="images"><a href="index.html">Home</a>&nbsp;<a href="image.html">Image</a></div>
+        <div class="logo"><b>Advanced Search</b></div></div>
+        <div class="form">
+            <b>Find pages with...</b>
+        <form action="https://www.google.com/search"><div id="container">
+            <br><div class="left">all these words:</div><div class="right"><input type="text" size="50px" name="as_q"></div><br><br>
+            <div class="left">this exact word or phrase:</div><div class="right"><input type="text" size="50px" name="as_epq"></div><br><br>
+            <div class="left">any of these words:</div><div class="right"><input type="text" size="50px" name="as_oq"></div><br><br>
+            <div class="left">none of these words:</div><div class="right"><input type="text" size="50px" name="as_eq"></div><br>
+            <div class="right"><input class="sub" type="submit" value="Advanced Search"></div>
+        </form></div>
+        </body>
+</html>
