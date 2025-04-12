@@ -61,3 +61,11 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+def createlist(request):
+    if not request.user.is_authenticated:
+        return render(request,"auctions/login.html",{
+            "message":"You need to login to create a listing."
+        })
+    if request.method == "GET":
+        return render(request,"auctions/createlist.html")

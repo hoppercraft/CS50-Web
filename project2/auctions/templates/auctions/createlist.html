@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create list</h2>
+    <form action="{% url 'createlist' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{ user.username }}">
+    </form>
+    
+{% endblock %}
