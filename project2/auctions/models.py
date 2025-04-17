@@ -6,11 +6,14 @@ class User(AbstractUser):
     pass
 
 class Listing(models.Model):
-    code = models.CharField(max_length=3)
     item = models.CharField(max_length=64)
+    description = models.CharField(max_length=200)
+    image = models.CharField(max_length=64)
+    minimumbid = models.IntegerField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.item} ({self.code})"
+        return f"{self.item} {self.description} {self.image} {self.minimumbid} {self.owner}"
 
 
 class bid(models.Model):

@@ -4,7 +4,10 @@
     <h2>Create list</h2>
     <form action="{% url 'createlist' %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="username" value="{{ user.username }}">
+        Listing:<br> <input type="text" name="listing" placeholder="Listing"><br>
+        Description:<br> <textarea name="description" placeholder="description"></textarea><br>
+        Image:<br> <input type="text" name="image"><br>
+        Minimum bid:<br><input type="number" name="bid"><br>
+        <input type="submit" value="Create listing">
     </form>
-    
 {% endblock %}
