@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User,Listing
+from .models import User
 
 
 def index(request):
@@ -61,20 +61,3 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
-
-def createlist(request):
-    if not request.user.is_authenticated:
-        return render(request,"auctions/login.html",{
-            "message":"You need to login to create a listing."
-        })
-    if request.method == "GET":
-        return render(request,"auctions/createlist.html",
-        )
-    else:
-        item = request.POST["listing"]
-        description = request.POST["description"]
-        image = request.POST["image"]
-        minimumbid = request.POST["bid"]
-        listing = Listing(item=item,description=description,image=image,minimumbid=minimumbid,owner=request.user)
-        listing.save()
-        return render(request,"auctions/createlist.html")
