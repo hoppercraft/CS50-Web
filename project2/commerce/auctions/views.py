@@ -22,7 +22,7 @@ def createlisting(request):
         Listing.objects.create(
             title=title,
             description=description,
-            starting_bid=starting_bid,
+            bid=starting_bid,
             image=image,
             owner=request.user
         )
