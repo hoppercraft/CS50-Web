@@ -19,14 +19,16 @@ def createlisting(request):
         description=request.POST["description"]
         starting_bid=request.POST["starting_bid"]
         image = request.FILES.get("image")
-        Listing.objects.create(
+        new_Listing=Listing(
             title=title,
             description=description,
             bid=starting_bid,
-            image=image,
             owner=request.user
         )
-        return render(request, "auctions/createlisting.html")
+        if image:
+            new_Listing.image=image
+        new_Listing.save()
+        return HttpResponseRedirect(reverse("index"))
     else:
         if request.user.is_authenticated:
             return render(request, "auctions/createlisting.html")
@@ -43,8 +45,6 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-
-        # Check if authentication successful
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
