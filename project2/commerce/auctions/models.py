@@ -13,6 +13,6 @@ class Listing(models.Model):
     image = models.ImageField(upload_to='listing_images/', blank=True, null=True,default='listing_images/default.jpg')
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="owned_listings")
     highest_bidder = models.ForeignKey(User, on_delete=models.CASCADE,related_name="bidded_listings",blank=True,null=True)
-
+    category = models.CharField(max_length=50)
     def __str__(self):
         return self.title

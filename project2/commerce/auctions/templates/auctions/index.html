@@ -4,12 +4,12 @@
     <h2>Active Listings</h2>
     
     {% for listing in listings %}
-        <div class="listing">
+        <div class="listing" onclick="location.href='{% url 'listing' listing.id %}';" style="cursor: pointer;">
             {% if listing.image %}
                 <img src="{{ listing.image.url }}" width = "400" class="listing_image">
             {% endif %}
             <div class="listing_info">
-                <h3><b>{{ listing.title }}</b><br></h3>
+                <h3><b>{{ listing.title }}</b></h3>
                 <h4><b>Price:</b>${{listing.bid}}</h4>
                 <h4>{{ listing.description }}</h4>
                 <div class="listing_footer">
