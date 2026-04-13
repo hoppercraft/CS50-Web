@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from .forms import ListingForm
 from .models import User,Listing
 
 
@@ -14,28 +14,23 @@ def index(request):
     })
 
 def createlisting(request):
+    if not request.user.is_authenticated:
+        return render(request, "auctions/createlisting.html", {
+            "warning": "LOGIN OR REGISTER FIRST"
+        })
     if request.method == "POST":
-        title=request.POST["title"]
-        description=request.POST["description"]
-        starting_bid=request.POST["starting_bid"]
-        image = request.FILES.get("image")
-        new_Listing=Listing(
-            title=title,
-            description=description,
-            bid=starting_bid,
-            owner=request.user
-        )
-        if image:
-            new_Listing.image=image
-        new_Listing.save()
-        return HttpResponseRedirect(reverse("index"))
+        form = ListingForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_listing = form.save(commit=False)
+            new_listing.owner = request.user
+            new_listing.save()
+            return HttpResponseRedirect(reverse("index"))
     else:
-        if request.user.is_authenticated:
-            return render(request, "auctions/createlisting.html")
-        else:
-            return render(request, "auctions/createlisting.html",{
-                "warning":"LOGIN OR REGISTER FIRST"
-            })
+        form = ListingForm()
+
+    return render(request, "auctions/createlisting.html", {
+        "form": form
+    })
     
 
 def login_view(request):

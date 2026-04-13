@@ -6,10 +6,10 @@
     <img src="{{ listing.image.url }}" width = "400" class="listing_image">
 {% endif %}
 <p>{{ listing.description }}</p>
-<h2>${{listing.bid}}</h2>
+<h2>${{listing.starting_bid}}</h2>
 <h3 style="font-weight: 600;">Details</h3>
     <ul>
         <li>Listed by: {{listing.owner}}</li>
-        <li>Category:</li>
+        <li>Category: {{listing.get_category_display}}</li>
     </ul>
 {% endblock %}      
