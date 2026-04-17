@@ -4,12 +4,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .forms import ListingForm,BidForm
-from .models import User,Listing
+from .models import User,Listing,Bid
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.db.models import Max
 def index(request):
     listings=Listing.objects.all()
+    for listing in listings:
+        highest_bid = listing.bids.aggregate(Max("bid_amount"))["bid_amount__max"] 
+        if highest_bid:
+            listing.starting_bid=highest_bid
     return render(request, "auctions/index.html",{
         "listings":listings
     })
@@ -85,9 +89,14 @@ def register(request):
 @login_required
 def listing_page(request,listing_id):
     listing=get_object_or_404(Listing, pk=listing_id)
-    highest_bid = listing.bids.aggregate(Max("bid_amount"))["bid_amount__max"]
+    highest_bid_obj = listing.bids.order_by('-bid_amount').first()
+    highest_bid = listing.starting_bid
+    highest_bidder = None
+    if highest_bid_obj:
+        highest_bid = highest_bid_obj.bid_amount
+        highest_bidder = highest_bid_obj.bidder
     total_bids = listing.bids.count()
-    if highest_bid:
+    if highest_bid_obj:
         listing.starting_bid=highest_bid
     else:
         highest_bid=listing.starting_bid
@@ -102,7 +111,6 @@ def listing_page(request,listing_id):
                 new_bid.save()
                 return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
             else:
-                # Add an error directly to the form
                 form.add_error('bid_amount', f"Must be higher than ${highest_bid}")
     else:
         form = BidForm()
@@ -110,5 +118,7 @@ def listing_page(request,listing_id):
     return render(request, "auctions/listing.html",{
         "listing":listing,
         "highest_bid":highest_bid,
-        "total_bids":total_bids
+        "total_bids":total_bids,
+        "form": form,
+        "highest_bidder":highest_bidder
     })

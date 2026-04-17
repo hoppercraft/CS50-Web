@@ -10,7 +10,7 @@
             {% endif %}
             <div class="listing_info">
                 <h3><b>{{ listing.title }}</b></h3>
-                <h4><b>Price:</b>${{listing.bid}}</h4>
+                <h4><b>Current Price:</b>${{listing.starting_bid}}</h4>
                 <h4>{{ listing.description }}</h4>
                 <div class="listing_footer">
                     Created:{{ listing.created_at|date:"M d, Y H:i" }}

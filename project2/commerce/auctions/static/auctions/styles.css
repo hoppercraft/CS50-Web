@@ -37,3 +37,10 @@ img{
 p{
     font-size: 20px;
 }
+
+.errorlist li {
+    color: #dc3545; 
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 5px;
+}

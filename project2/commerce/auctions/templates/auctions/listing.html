@@ -8,8 +8,17 @@
 <p>{{ listing.description }}</p>
 <h2>${{highest_bid}}</h2>
 {{total_bids}} bid(s) so far
-
-
+<form action="{% url 'listing' listing.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary" {% if request.user == listing.owner or request.user == highest_bidder %} disabled 
+    {% endif %} >
+         {% if request.user == listing.owner %} Your item 
+         {% elif request.user == highest_bidder %} You are the highest bidder 
+         {% else %} Place Bid 
+         {% endif %} 
+    </button>
+</form>
 <h3 style="font-weight: 600;">Details</h3>
     <ul>
         <li>Listed by: {{listing.owner}}</li>
