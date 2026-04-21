@@ -1,5 +1,5 @@
 from django import forms
-from .models import Listing,Bid
+from .models import Listing,Bid,Comment
 
 class ListingForm(forms.ModelForm):
     class Meta:
@@ -19,4 +19,12 @@ class BidForm(forms.ModelForm):
         fields = ['bid_amount']
         widgets = {
             'bid_amount': forms.NumberInput(attrs={'class': 'form-control','placeholder': 'Bid Amount'})
+        }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        widgets = {
+            'comment': forms.NumberInput(attrs={'class': 'form-control'})
         }

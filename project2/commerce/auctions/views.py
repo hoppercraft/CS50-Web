@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import ListingForm,BidForm
+from .forms import ListingForm,BidForm,CommentForm
 from .models import User,Listing,Bid
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -102,18 +102,28 @@ def listing_page(request,listing_id):
         highest_bid=listing.starting_bid
 
     if request.method == 'POST':
-        form = BidForm(request.POST)
-        if form.is_valid():
-            new_bid = form.save(commit=False)
-            if new_bid.bid_amount > highest_bid:
-                new_bid.bidder = request.user
-                new_bid.bid_item = listing
-                new_bid.save()
+        if 'submit_bid' in request.POST:
+            form = BidForm(request.POST)
+            if form.is_valid():
+                new_bid = form.save(commit=False)
+                if new_bid.bid_amount > highest_bid:
+                    new_bid.bidder = request.user
+                    new_bid.bid_item = listing
+                    new_bid.save()
+                    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+                else:
+                    form.add_error('bid_amount', f"Must be higher than ${highest_bid}")
+        elif 'submit_comment' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.commenter = request.user
+                new_comment.commented_item = listing
+                new_comment.save()
                 return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
-            else:
-                form.add_error('bid_amount', f"Must be higher than ${highest_bid}")
     else:
         form = BidForm()
+        comment_form = CommentForm()
     
     return render(request, "auctions/listing.html",{
         "listing":listing,

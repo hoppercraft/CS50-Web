@@ -11,7 +11,7 @@
 <form action="{% url 'listing' listing.id %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary" {% if request.user == listing.owner or request.user == highest_bidder %} disabled 
+    <button type="submit" name="submit_bid" class="btn btn-primary" {% if request.user == listing.owner or request.user == highest_bidder %} disabled 
     {% endif %} >
          {% if request.user == listing.owner %} Your item 
          {% elif request.user == highest_bidder %} You are the highest bidder 
@@ -24,4 +24,10 @@
         <li>Listed by: {{listing.owner}}</li>
         <li>Category: {{listing.get_category_display}}</li>
     </ul>
+
+<hr>
+<form action="{% url 'listing' listing.id %}" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" name="submit_comment">Post Comment</button>
 {% endblock %}      
